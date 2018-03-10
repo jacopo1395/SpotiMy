@@ -1,0 +1,29 @@
+{
+  "name": "spotimy",
+  "version": "1.0.0",
+  "description": "music streaming",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacopo1395/Spotimy.git"
+  },
+  "keywords": [
+    "music"
+  ],
+  "author": "Jacopo Carlini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacopo1395/Spotimy/issues"
+  },
+  "homepage": "https://github.com/jacopo1395/Spotimy#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "spotify-web-api-node": "^3.0.0",
+    "youtube-search": "^1.0.10",
+    "ytdl-core": "^0.20.2"
+  }
+}
