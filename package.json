@@ -23,6 +23,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "spotify-web-api-node": "^3.0.0",
+    "web-audio-stream": "^3.0.1",
     "youtube-search": "^1.0.10",
     "ytdl-core": "^0.20.2"
   }

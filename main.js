@@ -4,6 +4,9 @@ var path = require("path");
 var request = require('request');
 var SpotifyWebApi = require('spotify-web-api-node');
 var youtube = require('youtube-search');
+const context = require('audio-context')
+const Generator = require('audio-generator')
+const {Readable, Writable} = require('web-audio-stream/stream')
 var express = require('express');
 var app = express();
 
@@ -101,23 +104,40 @@ app.get('/find/:query', function(req, res) {
 app.get('/play/:artist/:track', function(req, res) {
     if(req.params.artist!==undefined && req.params.track!==undefined){
         var opts = {
-            maxResults: 10,
+            maxResults: 5,
             key: 'AIzaSyBIwPuprTOyxZlZaZWIym4vQnSNlF8ABU8'
         };
-        var query = req.params.track +" "+req.params.artist;
+        var query = req.params.artist +" "+req.params.track;
+        console.log(query);
         youtube(query, opts, function(err, results) {
             if(err) return console.log(err);
-            get_access_token(function (err) {
-            if (err) {
-                send_error(res);
-            }
             var id = results[0].id;
-            // var url="http://www.youtube.com/watch?v="+id;
-            var url="http://www.youtube.com/watch?v=bJtRONVWC08";
+            var url="http://www.youtube.com/watch?v="+id;
             var stream = ytdl(url,{quality: 'highestaudio', filter: 'audioonly'});
-            console.log("stream music")
-            stream.pipe(res);
+            console.log("stream music");
+            stream.pipe(fs.createWriteStream('audio.mp3'))
+            stream.on('finish', function () {
+                console.log("finish");
+                // var range = req.headers.range;
+                // const stats = fs.statSync("audio.mp3")
+                // var total = stats.size;
+                // var parts = range.replace(/bytes=/, "").split("-");
+                // var partialstart = parts[0];
+                // var partialend = parts[1];
+                //
+                // var start = parseInt(partialstart, 10);
+                // var end = partialend ? parseInt(partialend, 10) : total;
+                // var chunksize = (end-start);
+                // res.writeHead(206, {
+                //     "Content-Range": "bytes " + start + "-" + end + "/" + total,
+                //     "Accept-Ranges": "bytes",
+                //     "Content-Length": chunksize,
+                //     "Content-Type": "audio/ogg"
+                // });
+                // res.sendFile(__dirname+"/audio.mp3")
             });
+            stream.pipe(res);
+
         });
 
     }
