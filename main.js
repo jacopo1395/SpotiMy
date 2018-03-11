@@ -4,9 +4,6 @@ var path = require("path");
 var request = require('request');
 var SpotifyWebApi = require('spotify-web-api-node');
 var youtube = require('youtube-search');
-const context = require('audio-context')
-const Generator = require('audio-generator')
-const {Readable, Writable} = require('web-audio-stream/stream')
 var express = require('express');
 var app = express();
 
@@ -82,7 +79,6 @@ app.get('/', function(req, res) {
    res.sendFile(path.join(__dirname+'/view/home.html'));
 });
 
-
 app.get('/find/:query', function(req, res) {
     console.log(req.params);
     if (req.params.query===undefined) res.send("empty");
@@ -91,9 +87,10 @@ app.get('/find/:query', function(req, res) {
         if (err) {
             send_error(res);
         }
-            spotifyApi.searchTracks(req.params.query)
+            spotifyApi.searchTracks(req.params.query, {limit:5})
             .then(function(data) {
-                res.send(data.body);
+                var tracks=data.body.tracks
+                res.json(tracks);
             }, function(err) {
                 console.error(err);
             });
@@ -101,13 +98,14 @@ app.get('/find/:query', function(req, res) {
     }
 });
 
-app.get('/play/:artist/:track', function(req, res) {
-    if(req.params.artist!==undefined && req.params.track!==undefined){
+app.get('/play/:query', function(req, res) {
+    console.log(req.params.query);
+    if(req.params.query!==undefined){
         var opts = {
             maxResults: 5,
             key: 'AIzaSyBIwPuprTOyxZlZaZWIym4vQnSNlF8ABU8'
         };
-        var query = req.params.artist +" "+req.params.track;
+        var query = req.params.query;
         console.log(query);
         youtube(query, opts, function(err, results) {
             if(err) return console.log(err);
@@ -115,9 +113,9 @@ app.get('/play/:artist/:track', function(req, res) {
             var url="http://www.youtube.com/watch?v="+id;
             var stream = ytdl(url,{quality: 'highestaudio', filter: 'audioonly'});
             console.log("stream music");
-            stream.pipe(fs.createWriteStream('audio.mp3'))
-            stream.on('finish', function () {
-                console.log("finish");
+            // stream.pipe(fs.createWriteStream('audio.mp3'))
+            // stream.on('finish', function () {
+                // console.log("finish");
                 // var range = req.headers.range;
                 // const stats = fs.statSync("audio.mp3")
                 // var total = stats.size;
@@ -135,7 +133,7 @@ app.get('/play/:artist/:track', function(req, res) {
                 //     "Content-Type": "audio/ogg"
                 // });
                 // res.sendFile(__dirname+"/audio.mp3")
-            });
+            // });
             stream.pipe(res);
 
         });

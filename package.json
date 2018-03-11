@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jacopo1395/Spotimy.git"
+    "url": "git+https://github.com/jacopo1395/SpotiMy.git"
   },
   "keywords": [
     "music"
@@ -17,9 +17,9 @@
   "author": "Jacopo Carlini",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jacopo1395/Spotimy/issues"
+    "url": "https://github.com/jacopo1395/SpotiMy/issues"
   },
-  "homepage": "https://github.com/jacopo1395/Spotimy#readme",
+  "homepage": "https://github.com/jacopo1395/SpotiMy#readme",
   "dependencies": {
     "express": "^4.16.2",
     "spotify-web-api-node": "^3.0.0",
