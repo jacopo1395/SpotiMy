@@ -22,6 +22,10 @@
   "homepage": "https://github.com/jacopo1395/SpotiMy#readme",
   "dependencies": {
     "express": "^4.16.2",
+    "fluent-ffmpeg": "^2.1.2",
+    "lyric-get": "^1.0.3",
+    "mediaserver": "^0.1.1",
+    "node-spotify-api": "^1.0.7",
     "spotify-web-api-node": "^3.0.0",
     "web-audio-stream": "^3.0.1",
     "youtube-search": "^1.0.10",
