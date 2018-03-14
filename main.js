@@ -128,6 +128,21 @@ app.get('/album/:query', function(req, res) {
     }
 });
 
+app.get('/tracks_of_album/:id', function(req, res) {
+    console.log(req.params);
+    if (req.params.id===undefined) res.send("empty");
+    else{
+        spotify
+          .request('https://api.spotify.com/v1/albums/'+ req.params.id +'/tracks')
+          .then(function(data) {
+            res.json(data);
+        })
+        .catch(function(err) {
+            console.error('Error occurred: ' + err);
+          });
+    }
+});
+
 
 app.get('/play/:query', function(req, res) {
     console.log(req.params.query);
