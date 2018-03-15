@@ -15,7 +15,7 @@ var app = express();
 
 
 var client_id = 'e5f7c755748b463cab7dcf25b83b017d'; // Your client id
-var client_secret = '8e569197dae149dc83e9f6add1fcc94e'; // Your secret
+var client_secret = '286877ab121b46fab0947d337276eb56'; // Your secret
 // var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 // credentials are optional
 // var spotifyApi = new SpotifyWebApi({
@@ -142,6 +142,37 @@ app.get('/tracks_of_album/:id', function(req, res) {
           });
     }
 });
+
+app.get('/albums_of_artist/:id', function(req, res) {
+    console.log(req.params);
+    if (req.params.id===undefined) res.send("empty");
+    else{
+        spotify
+          .request('https://api.spotify.com/v1/artists/'+req.params.id+'/albums')
+          .then(function(data) {
+            res.json(data);
+        })
+        .catch(function(err) {
+            console.error('Error occurred: ' + err);
+          });
+    }
+});
+
+app.get('/popular_of_artist/:id', function(req, res) {
+    console.log(req.params);
+    if (req.params.id===undefined) res.send("empty");
+    else{
+        spotify
+          .request('https://api.spotify.com/v1/artists/'+req.params.id+'/top-tracks')
+          .then(function(data) {
+            res.json(data);
+        })
+        .catch(function(err) {
+            console.error('Error occurred: ' + err);
+          });
+    }
+});
+
 
 
 app.get('/play/:query', function(req, res) {
